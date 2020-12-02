@@ -6,7 +6,7 @@ public class playerController : MonoBehaviour
 {
     public int masa;
     public float movementSpeed, runSpeed, jumpSpeed, fallSpeed;
-    public bool idle, run, climb, nearWall, fall, jump, throwA;
+    public bool idle, run, climb, nearWall, fall, jump, throwA, duck, pickup, die, restart;
 
     float verticalInput;
     Animator anim;
@@ -26,6 +26,10 @@ public class playerController : MonoBehaviour
         run = false;
         jump = false;
         throwA = false;
+        duck = false;
+        pickup = false;
+        die = false;
+        restart = false;
         rigidbody.mass = masa;
     }
 
@@ -49,6 +53,9 @@ public class playerController : MonoBehaviour
         anim.SetBool("fall", fall);
         anim.SetBool("jump", jump);
         anim.SetBool("throw", throwA);    
+        anim.SetBool("duck", duck);
+        anim.SetBool("pickup", pickup);
+        anim.SetBool("die", die);
 
         // Saltar
         if (Input.GetKeyDown(KeyCode.Space))
@@ -67,6 +74,36 @@ public class playerController : MonoBehaviour
             rigidbody.mass = masa;
             climb = false;
         }
+
+        // Agacharse
+        if (Input.GetKey(KeyCode.S))
+        {
+            duck = true;
+        }
+        else
+        {
+            duck = false;
+        }
+
+        // Recoger objeto
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            pickup = true;
+        } 
+
+        // Morir
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            die = true;
+        }
+
+        // Revivir
+        if (Input.GetKeyDown(KeyCode.R) && die && restart)
+        {
+            die = false;
+            restart = false;
+        }
+
     }
 
     void LateUpdate()
@@ -76,6 +113,7 @@ public class playerController : MonoBehaviour
             idle = false;
             throwA = true;
         }
+
         if (jump && anim.GetCurrentAnimatorStateInfo(0).IsName("Jumping") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
         {
             jump = false;
@@ -90,6 +128,16 @@ public class playerController : MonoBehaviour
         if (fall && anim.GetCurrentAnimatorStateInfo(0).IsName("Falling") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
         {
             fall = false;
+        }
+
+        if (pickup && anim.GetCurrentAnimatorStateInfo(0).IsName("Picking up") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 1.0f)
+        {
+            pickup = false;
+        }
+
+        if (die && anim.GetCurrentAnimatorStateInfo(0).IsName("Die") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+        {
+            restart = true;
         }
     }
 

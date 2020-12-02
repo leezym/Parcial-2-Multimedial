@@ -13,10 +13,11 @@
   Caminar -> W
 
 5)
-  Dirección del player -> Mouse
+  Caminar -> W
+  Escalar -> E presionada y W o S
 
 6)
-  Saltar -> Space
-  Caminar -> W
   Correr -> LeftShift
-  Escalar -> W + E || S + E
+  Recoger -> LeftControl
+  Agachar -> S
+  Morir -> F (Puede revivir si presiona R)
