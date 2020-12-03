@@ -1,4 +1,6 @@
 # Parcial 2
+Integrantes: Elizabeth Moncada - Jonathan Asprilla
+
 
 1)
   Pose T sin dar Play
